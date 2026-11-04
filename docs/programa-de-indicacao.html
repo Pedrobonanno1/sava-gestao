@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAVA · Programa de indicação</title>
+<meta name="robots" content="noindex">
+<style>
+/* Paleta do app — VERBATIM (sava/CLAUDE.md). Não editar. */
+.sava {
+  --cream: #F7F5EF; --cream-deep: #ECE8DC; --fill: #EFEDE4;
+  --ink: #23261F; --ink-soft: #787C6C;
+  --sage: #75886A; --sage-deep: #333D2B; --sage-tint: #E4E9DA;
+  --steel: #6E8291; --steel-deep: #3C4C58; --steel-tint: #E2E9EE;
+  --dune: #8A7B63; --dune-tint: #EDE7DB;
+  --rose: #A97583; --rose-deep: #6E4653; --rose-tint: #F0E2E6;
+  --amber: #B98A44; --amber-deep: #7A5A2A; --amber-tint: #F6EBD7; --amber-light: #E3C692;
+  --white: #FFFFFF;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --hairline: rgba(35,38,32,.08); --shadow-card: 0 1px 6px rgba(35,38,32,.04);
+  --sage-light: #A9BB9C;
+  --t-hero: clamp(2.125rem, 4.8vw, 3.5rem);
+  --t-section: clamp(1.625rem, 3vw, 2.25rem);
+  --t-card: clamp(1.25rem, 1.8vw, 1.5rem);
+  --t-lead: clamp(1.0625rem, 1.4vw, 1.2rem);
+  --larg: 1120px; --largura-prosa: 40rem;
+  color-scheme: light;
+}
+.sava, .sava .painel {
+  --texto: var(--ink); --texto-2: rgba(35,38,31,.78); --texto-3: var(--ink-soft);
+  --linha: rgba(35,38,32,.09); --linha-forte: rgba(35,38,32,.16);
+  --acento: var(--sage); --olho: var(--sage-deep);
+}
+.sava .escura {
+  background: var(--sage-deep); color: var(--cream);
+  --texto: var(--cream); --texto-2: rgba(247,245,239,.74); --texto-3: rgba(247,245,239,.56);
+  --linha: rgba(247,245,239,.12); --linha-forte: rgba(247,245,239,.24);
+  --acento: var(--sage-light); --olho: var(--amber-light);
+}
+.sava, .sava * { box-sizing: border-box; }
+.sava { margin: 0; background: var(--cream); color: var(--texto); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.sava h1, .sava h2, .sava h3, .sava p { margin: 0; }
+.sava .faixa { padding-left: 16px; padding-right: 16px; }
+.sava .miolo { max-width: var(--larg); margin-inline: auto; padding-inline: clamp(0px, 3vw, 32px); }
+.sava .cena { padding-block: clamp(48px, 7vw, 96px); }
+.sava .alterna { background: var(--cream-deep); }
+.sava .olho { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--olho); margin-bottom: 14px; }
+.sava h1, .sava h2, .sava h3 { font-family: var(--serif); font-weight: 500; text-wrap: balance; }
+.sava h1 { font-size: var(--t-hero); line-height: 1.08; letter-spacing: -.015em; }
+.sava h2 { font-size: var(--t-section); line-height: 1.15; letter-spacing: -.01em; }
+.sava h3 { font-size: var(--t-card); line-height: 1.2; }
+.sava .lead { font-size: var(--t-lead); line-height: 1.6; color: var(--texto); max-width: var(--largura-prosa); margin-top: 16px; }
+.sava .escura .lead { color: var(--texto-2); }
+.sava .lead strong { font-weight: 700; }
+.sava .fonte { font-size: 13px; color: var(--texto-3); margin-top: 14px; max-width: 72ch; }
+.sava .luz { color: var(--acento); }
+.sava .num { font-variant-numeric: tabular-nums; }
+
+.sava .topo { padding: 14px 0; background: var(--cream); border-bottom: 1px solid var(--hairline); }
+.sava .topo .miolo { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.sava .marca { font-family: var(--serif); font-weight: 500; font-size: 24px; letter-spacing: .05em; line-height: 1; color: var(--texto); }
+.sava .topo .data { font-size: 13.5px; color: var(--texto-3); }
+
+.sava .capa { padding-block: clamp(40px, 6vw, 80px) clamp(48px, 7vw, 88px); }
+.sava .capa .miolo { max-width: 860px; }
+
+.sava .cab-cena { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 64px); align-items: end; margin-bottom: clamp(28px, 4vw, 48px); }
+.sava .cab-cena .lead { margin-top: 0; }
+@media (max-width: 760px) { .sava .cab-cena { grid-template-columns: minmax(0, 1fr); } }
+
+/* cartões de prêmio, no molde dos planos da landing */
+.sava .planos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .sava .planos { grid-template-columns: minmax(0, 1fr); } }
+.sava .plano { position: relative; overflow: hidden; border-radius: 20px; padding: clamp(22px, 2.8vw, 32px); background: var(--white); box-shadow: var(--shadow-card); display: grid; gap: 4px; align-content: start; }
+.sava .plano.escura { background: var(--sage-deep); box-shadow: none; }
+.sava .plano.escura::before { content: ""; position: absolute; width: 280px; height: 280px; right: -96px; top: -120px; border-radius: 50%; background: rgba(247,245,239,.06); pointer-events: none; }
+.sava .plano > * { position: relative; }
+.sava .plano .nome { font-family: var(--serif); font-weight: 500; font-size: clamp(22px, 2vw, 28px); }
+.sava .plano .quem { font-size: 14px; color: var(--texto-3); }
+.sava .plano .valores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+.sava .plano .preco { font-size: clamp(36px, 3.8vw, 48px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums; color: var(--sage-deep); display: block; }
+.sava .plano.escura .preco { color: var(--cream); }
+.sava .plano .forma { display: block; font-size: 13px; font-weight: 600; color: var(--texto-2); margin-top: 4px; }
+.sava .plano ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.sava .plano li, .sava .checks li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; font-size: 14.5px; color: var(--texto-2); }
+.sava .plano li::before, .sava .checks li::before { content: "✓"; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 800; background: var(--sage-tint); color: var(--sage-deep); }
+.sava .plano.escura li::before { background: rgba(247,245,239,.14); color: var(--cream); }
+.sava .checks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+
+/* três colunas com fio em cima */
+.sava .tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); margin-top: 28px; }
+@media (max-width: 760px) { .sava .tres { grid-template-columns: minmax(0, 1fr); } }
+.sava .tres div { border-top: 1px solid var(--linha-forte); padding-top: 16px; }
+.sava .tres b { display: block; font-family: var(--serif); font-weight: 500; font-size: 20px; }
+.sava .tres span { display: block; color: var(--texto-2); font-size: 14.5px; margin-top: 6px; }
+
+/* fluxo, no molde do "como funciona" */
+.sava .fluxo-wrap { overflow-x: auto; margin-top: 8px; }
+.sava .fluxo { width: 100%; min-width: 640px; max-width: 1000px; display: block; margin-inline: auto; }
+.sava .fluxo .no rect { fill: rgba(247,245,239,.05); stroke: var(--linha-forte); }
+.sava .fluxo .no.cliente rect { fill: rgba(247,245,239,.08); stroke: rgba(247,245,239,.42); }
+.sava .fluxo .no.sava rect { fill: var(--cream); stroke: none; }
+.sava .fluxo .no.indicador rect { fill: rgba(110,130,145,.24); stroke: rgba(226,233,238,.42); }
+.sava .fluxo .no.premio rect { fill: rgba(185,138,68,.28); stroke: rgba(227,198,146,.5); }
+.sava .fluxo text { fill: var(--texto); font-family: var(--sans); }
+.sava .fluxo .tt { font-weight: 700; font-size: 17px; }
+.sava .fluxo .no.sava .tt { fill: var(--sage-deep); font-family: var(--serif); font-weight: 500; font-size: 24px; letter-spacing: .05em; }
+.sava .fluxo .ts { fill: var(--texto-2); font-size: 12.5px; }
+.sava .fluxo .no.sava .ts { fill: var(--ink-soft); }
+.sava .fluxo .rot { fill: var(--texto-3); font-size: 12px; font-weight: 600; }
+.sava .fluxo path { fill: none; stroke-width: 1.6; }
+.sava .fluxo .c1 { stroke: rgba(247,245,239,.45); } .sava .fluxo .c2 { stroke: rgba(247,245,239,.4); } .sava .fluxo .c3 { stroke: rgba(227,198,146,.7); stroke-dasharray: 5 6; }
+
+/* linhas de regra e de troca */
+.sava .troca { display: grid; gap: 0; }
+.sava .troca-linha { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 2fr); gap: clamp(12px, 3vw, 40px); padding: 18px 0; border-top: 1px solid var(--linha-forte); }
+.sava .troca-linha:last-child { border-bottom: 1px solid var(--linha-forte); }
+@media (max-width: 640px) { .sava .troca-linha { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.sava .troca .tema { font-family: var(--serif); font-weight: 500; font-size: 19px; }
+.sava .troca .depois { color: var(--texto-2); font-size: 15px; }
+.sava .regras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; counter-reset: regra; }
+@media (max-width: 760px) { .sava .regras { grid-template-columns: minmax(0, 1fr); } }
+.sava .regra { background: var(--white); border-radius: 16px; box-shadow: var(--shadow-card); padding: 18px 20px 18px 56px; position: relative; font-size: 14.5px; color: var(--texto-2); }
+.sava .regra::before { counter-increment: regra; content: counter(regra); position: absolute; left: 18px; top: 18px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--sage-tint); color: var(--sage-deep); font-weight: 800; font-size: 12.5px; }
+.sava .regra b { display: block; color: var(--texto); font-weight: 700; margin-bottom: 2px; }
+
+/* tabela do caixa */
+.sava .painel { background: var(--white); color: var(--texto); border-radius: 20px; padding: clamp(18px, 2.4vw, 28px); box-shadow: var(--shadow-card); }
+.sava table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.sava th, .sava td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--linha); }
+.sava th { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); }
+.sava td.num, .sava th.num { text-align: right; }
+.sava tr.marca-linha td { background: var(--sage-tint); font-weight: 700; }
+.sava .duas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .sava .duas { grid-template-columns: minmax(0, 1fr); } }
+.sava .painel h3 { margin-bottom: 4px; }
+.sava .painel .quem { font-size: 14px; color: var(--texto-3); }
+.sava .tarefas { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 10px; }
+.sava .tarefas li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15.5px; color: var(--texto-2); }
+.sava .tarefas li::before { content: ""; width: 20px; height: 20px; margin-top: 3px; border-radius: 6px; border: 1.5px solid var(--linha-forte); }
+.sava .final { position: relative; overflow: hidden; }
+.sava .final::before { content: ""; position: absolute; border-radius: 50%; pointer-events: none; background: rgba(247,245,239,.05); width: 640px; height: 640px; right: -240px; top: -280px; }
+.sava .final .miolo { position: relative; }
+.sava .rodape { background: var(--cream-deep); padding-block: 32px; font-size: 13.5px; color: var(--texto-3); }
+</style>
+</head>
+<body class="sava">
+
+<header class="topo faixa">
+  <div class="miolo">
+    <span class="marca">SAVA</span>
+    <span class="data">Programa de indicação · planejamento de 04/11/2026</span>
+  </div>
+</header>
+
+<!-- ================================================================ CAPA -->
+<section class="capa faixa">
+  <div class="miolo">
+    <p class="olho">Programa de indicação</p>
+    <h1>Indicou, fechou, ganhou. <span class="luz">Pago com a mensalidade que o indicado já pagou.</span></h1>
+    <p class="lead">Cada cliente e parceiro da SAVA que indicar um cliente novo ganha um prêmio único quando ele fechar. O custo de aquisição fica travado em <strong>uma mensalidade</strong> e só sai do caixa depois que o indicado pagou três.</p>
+  </div>
+</section>
+
+<!-- ================================================================ PRÊMIO -->
+<section class="cena faixa" id="premio">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">O prêmio</p><h2>Um prêmio por cliente fechado, <span class="luz">em dinheiro ou em crédito.</span></h2></div>
+      <p class="lead">O valor segue o regime tributário do cliente indicado. Quem já é cliente pode trocar o dinheiro por crédito na própria mensalidade, que vale mais.</p>
+    </div>
+    <div class="planos">
+      <div class="plano escura">
+        <span class="nome">Simples Nacional</span><span class="quem">o indicado paga R$ 300 por mês</span>
+        <div class="valores">
+          <div><span class="preco num">R$ 300</span><span class="forma">em dinheiro, via Pix</span></div>
+          <div><span class="preco num">R$ 400</span><span class="forma">em crédito na mensalidade</span></div>
+        </div>
+      </div>
+      <div class="plano">
+        <span class="nome">Lucro Presumido</span><span class="quem">o indicado paga R$ 500 por mês</span>
+        <div class="valores">
+          <div><span class="preco num">R$ 500</span><span class="forma">em dinheiro, via Pix</span></div>
+          <div><span class="preco num">R$ 650</span><span class="forma">em crédito na mensalidade</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tres">
+      <div><b>Crédito é o padrão para cliente.</b><span>Desconto nas próximas mensalidades do indicador até consumir o valor. Não mexe no caixa e vale mais. Não é resgatável nem transferível, e se perde se o indicador cancelar antes de usar.</span></div>
+      <div><b>Dinheiro para parceiro externo.</b><span>Ou para cliente que preferir. O indicador escolhe a forma quando o prêmio é liberado, não na indicação.</span></div>
+      <div><b>Sem teto.</b><span>Dez clientes fechados são dez prêmios.</span></div>
+    </div>
+    <p class="fonte">Decisão pendente: o crédito para Lucro Presumido. O combinado foi crédito de 400; aqui está extrapolado na mesma proporção (cerca de 30% acima do dinheiro). Se a ideia for 400 fixo em qualquer regime, basta ajustar.</p>
+  </div>
+</section>
+
+<!-- ================================================================ QUANDO -->
+<section class="cena faixa alterna" id="quando">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Quando o prêmio é liberado</p><h2>Na quitação da 3ª mensalidade <span class="luz">do cliente indicado.</span></h2></div>
+      <p class="lead">Na prática são uns 90 dias após o fechamento, mas a regra é contada em pagamentos, não em dias. Depois de liberado, dinheiro é pago via Pix em até 10 dias e crédito entra na próxima fatura do indicador.</p>
+    </div>
+    <div class="tres">
+      <div><b>Caixa.</b><span>O prêmio sai do que o indicado já pagou. A SAVA nunca desembolsa antes de receber.</span></div>
+      <div><b>Churn.</b><span>Cliente que entra e sai no primeiro ou segundo mês não gera prêmio.</span></div>
+      <div><b>Comunicação.</b><span>"Pagamos quando o cliente completa três mensalidades" é regra de retenção, não sinal de aperto de caixa.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ COMO FUNCIONA -->
+<section class="cena faixa escura" id="como">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Como funciona</p><h2>A indicação nasce no primeiro contato. <span class="luz">O cliente diz quem indicou.</span></h2></div>
+      <p class="lead">Não existe registro prévio nem formulário. A SAVA pergunta a todo lead como conheceu a empresa, anota quem indicou e, a partir daí, avisa o indicador a cada passo.</p>
+    </div>
+    <div class="fluxo-wrap">
+      <svg class="fluxo" viewBox="0 0 1000 300" role="img" aria-label="O cliente novo procura a SAVA e diz quem indicou. A SAVA fecha o contrato e recebe três mensalidades. Avisa o indicador em cada etapa e, na terceira mensalidade, libera o prêmio em Pix ou crédito.">
+        <path class="c1" d="M200 120 C 280 120, 320 120, 395 120"/>
+        <path class="c2" d="M395 175 C 320 175, 280 175, 200 175"/>
+        <path class="c2" d="M605 120 C 680 120, 700 75, 790 75"/>
+        <path class="c3" d="M605 180 C 680 180, 700 225, 790 225"/>
+        <g class="no cliente"><rect x="20" y="95" width="180" height="110" rx="18"/><text class="tt" x="110" y="143" text-anchor="middle">Cliente novo</text><text class="ts" x="110" y="166" text-anchor="middle">procura a SAVA</text></g>
+        <g class="no sava"><rect x="395" y="80" width="210" height="140" rx="20"/><text class="tt" x="500" y="140" text-anchor="middle">SAVA</text><text class="ts" x="500" y="163" text-anchor="middle">anota quem indicou</text><text class="ts" x="500" y="182" text-anchor="middle">e conta as mensalidades</text></g>
+        <g class="no indicador"><rect x="790" y="35" width="190" height="80" rx="16"/><text class="tt" x="885" y="70" text-anchor="middle">Indicador</text><text class="ts" x="885" y="92" text-anchor="middle">cliente ou parceiro</text></g>
+        <g class="no premio"><rect x="790" y="185" width="190" height="80" rx="16"/><text class="tt" x="885" y="220" text-anchor="middle">Prêmio</text><text class="ts" x="885" y="242" text-anchor="middle">Pix ou crédito</text></g>
+        <text class="rot" x="298" y="108" text-anchor="middle">"vim por indicação de X"</text>
+        <text class="rot" x="298" y="198" text-anchor="middle">contrato + 3 mensalidades</text>
+        <text class="rot" x="700" y="62" text-anchor="middle">nos procurou · fechou · liberado</text>
+        <text class="rot" x="700" y="258" text-anchor="middle">na 3ª mensalidade paga</text>
+      </svg>
+    </div>
+    <div class="tres">
+      <div><b>Cliente indica sem fazer nada.</b><span>Basta o indicado citar o nome dele no primeiro contato. Cliente já está cadastrado.</span></div>
+      <div><b>Parceiro se cadastra quando fecha.</b><span>Nome, CPF/CNPJ, contato e chave Pix, pedidos quando o primeiro indicado fechar.</span></div>
+      <div><b>Três avisos, no mínimo.</b><span>Seu indicado nos procurou, fechou, prêmio liberado. Parceiro que não sabe o que aconteceu não indica de novo.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ REGRAS -->
+<section class="cena faixa" id="regras">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Regras do programa</p><h2>Oito regras, definidas <span class="luz">antes do primeiro caso.</span></h2></div>
+      <p class="lead">Vão para o termo de adesão do parceiro e para a página pública, resumidas.</p>
+    </div>
+    <div class="regras">
+      <div class="regra"><b>O que é "fechar"</b>Contrato assinado e primeira mensalidade paga. Proposta aceita não conta.</div>
+      <div class="regra"><b>O que é indicação</b>Só conta quando o cliente procura a SAVA e diz, no primeiro contato, que vem por indicação de determinada pessoa. Cliente que já está no funil não vira indicado depois.</div>
+      <div class="regra"><b>Um nome só</b>A SAVA pergunta a todo lead como conheceu a empresa e anota um único nome. Vale a pessoa que o cliente citou no primeiro contato.</div>
+      <div class="regra"><b>Sem autoindicação</b>Não vale indicar a própria empresa nem empresa do mesmo sócio ou grupo.</div>
+      <div class="regra"><b>Base de cálculo</b>O regime do indicado no momento do fechamento. Se ele mudar de regime depois, o prêmio não muda.</div>
+      <div class="regra"><b>Cliente com desconto</b>O prêmio é o da tabela, independente de desconto promocional que o indicado tenha recebido.</div>
+      <div class="regra"><b>Indicador inadimplente</b>Prêmio fica retido até o indicador regularizar.</div>
+      <div class="regra"><b>Direito de mudar</b>A SAVA pode alterar valores e regras com aviso de 30 dias. Indicações em andamento seguem a regra vigente no primeiro contato do cliente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ FISCAL -->
+<section class="cena faixa alterna" id="fiscal">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Pagamento e lado fiscal</p><h2>Crédito não custa nada a mais. <span class="luz">Dinheiro para pessoa física custa 20%.</span></h2></div>
+      <p class="lead">Por isso a comunicação empurra cliente para o crédito. Parceiro frequente pessoa física deve receber por um CNPJ: MEI serve para agenciamento.</p>
+    </div>
+    <div class="troca">
+      <div class="troca-linha"><div class="tema">Crédito na mensalidade</div><div class="depois">Desconto na fatura do indicador. Sem tributo adicional, sem documento. A forma mais barata para a SAVA em todos os sentidos.</div></div>
+      <div class="troca-linha"><div class="tema">Dinheiro para PJ</div><div class="depois">Parceiro emite nota fiscal de serviço (intermediação / agenciamento) contra a SAVA.</div></div>
+      <div class="troca-linha"><div class="tema">Dinheiro para PF</div><div class="depois">RPA com retenção de INSS (11%) e IR pela tabela progressiva, mais INSS patronal de 20% por conta da SAVA. Um prêmio de 300 custa uns 360.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ CAIXA -->
+<section class="cena faixa" id="caixa">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Impacto no caixa</p><h2>Uma mensalidade em doze, <span class="luz">sem capital de giro.</span></h2></div>
+      <p class="lead">Premissa: mensalidade igual ao prêmio em dinheiro. Se 10 clientes fecharem por indicação num mês, o custo é zero nesse mês e no seguinte. No terceiro são 3.000 a 5.000 reais pagos com os 9.000 a 15.000 que esses clientes já pagaram.</p>
+    </div>
+    <div class="painel">
+      <table>
+        <thead><tr><th>Mês</th><th class="num">Indicado pagou, acumulado</th><th class="num">SAVA paga ao indicador</th><th class="num">Saldo do cliente</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="num">R$ 300</td><td class="num">0</td><td class="num">+300</td></tr>
+          <tr><td>2</td><td class="num">R$ 600</td><td class="num">0</td><td class="num">+600</td></tr>
+          <tr class="marca-linha"><td>3</td><td class="num">R$ 900</td><td class="num">R$ 300 (ou 400 em crédito)</td><td class="num">+600</td></tr>
+          <tr><td>12</td><td class="num">R$ 3.600</td><td class="num">R$ 300</td><td class="num">+3.300</td></tr>
+        </tbody>
+      </table>
+      <p class="fonte">Exemplo no Simples. Vale medir o churn dos indicados separado: cliente indicado costuma ficar mais, o que faz esse CAC ser ainda melhor do que a tabela mostra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ PLATAFORMA -->
+<section class="cena faixa alterna" id="plataforma">
+  <div class="miolo">
+    <div class="cab-cena">
+      <div><p class="olho">Na plataforma de gestão</p><h2>Três fatias. <span class="luz">Só a primeira é necessária para lançar.</span></h2></div>
+      <p class="lead">A plataforma já tem funil, clientes, cobrança por competência e comissão por responsável. O programa encaixa em cima disso.</p>
+    </div>
+    <div class="tres">
+      <div><b>1. Origem "Indicação" no lead.</b><span>Campo "indicado por" apontando para um cliente ou parceiro. Cadastro de parceiros é uma tabela nova e pequena. Já permite anotar e acompanhar manualmente.</span></div>
+      <div><b>2. Tela "Indicações".</b><span>Cada indicação com estágio (chegou, fechou, 1ª, 2ª, 3ª paga, prêmio liberado, pago), forma escolhida e data. O estágio é derivado das cobranças baixadas do indicado, sem ninguém contar na mão.</span></div>
+      <div><b>3. Lançamento automático.</b><span>Ao liberar, dinheiro vira despesa a pagar (categoria "Indicações") e crédito vira desconto na próxima cobrança do indicador. O custo aparece no DRE sozinho.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ COMUNICAÇÃO E MÉTRICAS -->
+<section class="cena faixa" id="material">
+  <div class="miolo">
+    <div class="duas">
+      <div class="painel">
+        <p class="olho">Comunicação e material</p>
+        <h3>O que precisa existir no lançamento</h3>
+        <ul class="checks">
+          <li>Uma página no site em cinco linhas: quem pode, quanto ganha, quando recebe, como indicar, regras resumidas.</li>
+          <li>Termo de adesão de uma página para parceiro. Para cliente, não precisa de aceite.</li>
+          <li>Mensagem pronta para o cliente mandar ao indicado, e uma arte para WhatsApp.</li>
+          <li>Lembrete no onboarding e na fatura: "indique e ganhe 400 de crédito".</li>
+          <li>Três mensagens automáticas ao indicador: nos procurou, fechou, prêmio liberado.</li>
+        </ul>
+      </div>
+      <div class="painel">
+        <p class="olho">Métricas</p>
+        <h3>O que acompanhar todo mês</h3>
+        <ul class="checks">
+          <li>Indicações recebidas e de quem vieram (cliente vs. parceiro).</li>
+          <li>Conversão de indicação para cliente fechado, comparada com os outros canais.</li>
+          <li>Prêmios liberados, pagos em dinheiro e em crédito.</li>
+          <li>Custo do programa dividido por clientes fechados por indicação (CAC do canal).</li>
+          <li>Churn dos indicados nos primeiros 6 meses contra o churn geral.</li>
+        </ul>
+        <p class="fonte">Se a conversão for muito superior aos outros canais, há espaço para subir o prêmio. Se o crédito dominar, há espaço para crédito ainda maior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================ DECISÕES -->
+<section class="cena faixa escura final" id="decisoes">
+  <div class="miolo">
+    <p class="olho">Decisões em aberto</p>
+    <h2>Quatro coisas a fechar <span class="luz">antes de lançar.</span></h2>
+    <ul class="tarefas">
+      <li>Valor do crédito para Lucro Presumido: 650 proporcional, ou 400 fixo.</li>
+      <li>Se parceiro externo pode receber crédito em outro serviço da SAVA, ou só dinheiro.</li>
+      <li>Quem responde pelo programa internamente: anotação, mensagens, pagamento.</li>
+      <li>Nome público do programa.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="rodape faixa">
+  <div class="miolo"><span class="marca">SAVA</span><br>Programa de indicação · documento interno · 04/11/2026</div>
+</footer>
+
+</body>
+</html>
