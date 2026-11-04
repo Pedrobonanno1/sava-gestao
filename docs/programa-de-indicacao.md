@@ -16,8 +16,8 @@ sai do caixa depois que o cliente indicado já pagou três.
 | **Cliente** | Qualquer cliente ativo e adimplente da SAVA | Dinheiro ou crédito na mensalidade |
 | **Parceiro** | Pessoa ou empresa cadastrada no programa (consultor, contador, escritório, fornecedor, amigo da casa) | Dinheiro (PF ou PJ) |
 
-Parceiro precisa de um cadastro simples antes da primeira indicação: nome, CPF/CNPJ,
-contato e dados de pagamento (Pix). Cliente já está cadastrado; basta indicar.
+Parceiro faz um cadastro simples quando o primeiro indicado fechar: nome, CPF/CNPJ,
+contato e chave Pix. Cliente já está cadastrado; basta o indicado citar o nome dele.
 
 ## 3. O prêmio
 
@@ -61,11 +61,12 @@ Depois de liberado, dinheiro é pago via Pix em **até 10 dias** e crédito entr
 
 1. **O que é "fechar":** contrato assinado **e** primeira mensalidade paga. Proposta
    aceita não conta.
-2. **Registro antes do contato:** a indicação precisa estar registrada (formulário ou
-   link) antes de o cliente procurar a SAVA. Cliente que já está no funil não pode ser
-   "indicado" depois.
-3. **Conflito de indicação:** se duas pessoas indicam o mesmo cliente, vale o primeiro
-   registro.
+2. **O que é indicação:** só conta quando o cliente procura a SAVA e diz, no primeiro
+   contato, que vem por indicação de determinada pessoa. Não existe registro prévio, e
+   quem indicou não precisa avisar a SAVA. Cliente que já está no funil não vira
+   indicado depois.
+3. **Um nome só:** a SAVA pergunta a todo lead como conheceu a empresa e anota um único
+   nome. Vale a pessoa que o cliente citou no primeiro contato.
 4. **Sem autoindicação:** não vale indicar a própria empresa nem empresa do mesmo sócio
    ou grupo.
 5. **Base de cálculo:** o regime do indicado no momento do fechamento. Se ele mudar de
@@ -73,34 +74,31 @@ Depois de liberado, dinheiro é pago via Pix em **até 10 dias** e crédito entr
 6. **Cliente com desconto:** o prêmio é o da tabela, independente de desconto promocional
    que o indicado tenha recebido.
 7. **Indicador inadimplente:** prêmio fica retido até o indicador regularizar.
-8. **Validade da indicação:** 6 meses. Se o indicado não fechar nesse prazo, a
-   indicação expira e pode ser registrada de novo por qualquer pessoa.
-9. **Direito de mudar:** a SAVA pode alterar valores e regras com aviso de 30 dias.
-   Indicações já registradas seguem a regra vigente no registro.
+8. **Direito de mudar:** a SAVA pode alterar valores e regras com aviso de 30 dias.
+   Indicações em andamento seguem a regra vigente no primeiro contato do cliente.
 
 ## 6. Fluxo operacional
 
 ```
 Indicador                SAVA                              Cliente indicado
    |                       |                                      |
-   |- registra indicação ->| confirma por WhatsApp/e-mail         |
-   |                       |- cria lead no funil (origem =        |
-   |                       |  Indicação, campo "indicado por")    |
+   |                       |<- procura a SAVA e diz quem indicou -|
+   |<- avisa: nos procurou-| cria lead no funil (origem =         |
+   |                       |  Indicacao, campo "indicado por")    |
    |                       |- faz o comercial normal ------------>|
-   |                       |<------------ contrato + 1ª mensalidade|
+   |                       |<------------ contrato + 1a mensalidade|
    |<- avisa: "fechou" ----|                                      |
-   |                       |<------------ 2ª mensalidade ---------|
-   |                       |<------------ 3ª mensalidade ---------|
-   |<- prêmio liberado ----| pergunta: dinheiro ou crédito?       |
+   |                       |<------------ 2a mensalidade ---------|
+   |                       |<------------ 3a mensalidade ---------|
+   |<- premio liberado ----| pergunta: dinheiro ou credito?       |
    |- escolhe ------------>|                                      |
-   |<- Pix em 10 dias -----|  ou crédito na próxima fatura        |
+   |<- Pix em 10 dias -----|  ou credito na proxima fatura        |
 ```
 
-**Registro da indicação.** Formulário simples (nome da empresa, contato, quem indicou).
-Cada cliente e parceiro recebe um link com código próprio, para o registro não depender
-de ninguém digitar nada certo. Para começar, um formulário basta.
+**Sem registro prévio.** A indicação nasce no primeiro contato: a SAVA pergunta ao lead
+como conheceu a empresa e anota quem indicou. Não há formulário nem link.
 
-**Toque com o indicador.** Três mensagens automáticas, no mínimo: recebemos a indicação,
+**Toque com o indicador.** Três mensagens automáticas, no mínimo: seu indicado nos procurou,
 fechou, prêmio liberado. Parceiro que não sabe o que aconteceu com a indicação não
 indica de novo.
 
@@ -140,8 +138,8 @@ comissão por responsável. O programa encaixa em cima disso, em três fatias:
 
 1. **Origem "Indicação" no lead** com campo `indicado_por` apontando para um cliente ou
    parceiro. Cadastro de parceiros é uma tabela nova e pequena (nome, documento, Pix,
-   contato). Isso já permite registrar e acompanhar manualmente.
-2. **Tela "Indicações":** lista cada indicação com estágio (registrada, fechou, 1ª, 2ª,
+   contato). Isso já permite anotar e acompanhar manualmente.
+2. **Tela "Indicações":** lista cada indicação com estágio (chegou, fechou, 1ª, 2ª,
    3ª paga, prêmio liberado, prêmio pago), forma escolhida e data. O estágio é derivado
    das cobranças baixadas do indicado, sem ninguém contar na mão.
 3. **Lançamento automático do prêmio:** ao liberar, dinheiro vira uma despesa a pagar
@@ -154,9 +152,10 @@ justificar.
 ## 10. Comunicação e material
 
 - **Uma página no site** explicando o programa em cinco linhas: quem pode, quanto ganha,
-  quando recebe, como indicar, regras resumidas. Com o formulário de registro.
+  quando recebe, como indicar, regras resumidas. Sem formulário: o indicado só precisa
+  dizer quem indicou ao procurar a SAVA.
 - **Termo de adesão** de uma página para parceiro, incorporando as regras da seção 5.
-  Para cliente, o aceite é pelo próprio formulário.
+  Para cliente, não precisa de aceite.
 - **Mensagem pronta** para o cliente mandar ao indicado, e uma arte para WhatsApp.
 - **Lembrete no onboarding e na fatura** do cliente: "indique e ganhe 400 de crédito".
 
@@ -164,7 +163,7 @@ justificar.
 
 Acompanhar mensalmente:
 
-- Indicações registradas e de quem vieram (cliente vs. parceiro).
+- Indicações recebidas e de quem vieram (cliente vs. parceiro).
 - Taxa de conversão de indicação para cliente fechado, comparada com os outros canais.
 - Prêmios liberados, pagos em dinheiro e em crédito.
 - Custo total do programa / clientes fechados por indicação (CAC do canal).
@@ -173,17 +172,7 @@ Acompanhar mensalmente:
 Se a conversão de indicação for muito superior aos outros canais, há espaço para subir
 o prêmio. Se o crédito dominar, há espaço para oferecer crédito ainda maior.
 
-## 12. Cronograma de lançamento
-
-| Semana | Entrega |
-|---|---|
-| 1 | Fechar regras e valores (este documento), termo de adesão, texto da página. |
-| 2 | Formulário de registro com link por indicador; campo "indicado por" no funil. |
-| 3 | Lançar para a base de clientes atuais (e-mail + WhatsApp + lembrete na fatura). |
-| 5 a 8 | Convidar parceiros externos, começando pelos que já mandaram cliente sem programa. |
-| Mês 3 | Primeiros prêmios liberados. Revisar métricas e decidir sobre a tela "Indicações". |
-
-## 13. Decisões em aberto
+## 12. Decisões em aberto
 
 - [ ] Valor do crédito para Lucro Presumido (650 proporcional, ou 400 fixo).
 - [ ] Se parceiro externo pode receber crédito em outro serviço da SAVA, ou só dinheiro.
